@@ -53,7 +53,7 @@ TVector<ValType>::~TVector() {
 	size = 0;
 	if (pVector != 0)
 		delete[] pVector;
-	pVector = 0;
+	pVector = nullptr;
 }
 
 template <class ValType>
