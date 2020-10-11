@@ -1,3 +1,4 @@
+#pragma once
 #include <math.h>
 #include "MyVector.h"
 #ifndef _MY_VECTOR_
@@ -5,6 +6,12 @@
 #define MIN(a,b)(a>b?b:a)
 #define MAX(a,b)(a>b?a:b)
 using namespace std;
+
+template<class ValType>
+TVector<ValType>::TVector() {
+	int size = 1;
+	pVector = new TVector[1];
+}
 
 template<class ValType>
 TVector<ValType>::TVector(int s) {
@@ -61,7 +68,7 @@ template<class ValType>
 int TVector<ValType>::operator==(const TVector<ValType>& v) {
 	if (size == v.size) {
 		for (int i = 0; i < size; i++) {
-			if ((*this)[i] != v[i])
+			if ((*this).pVector[i] != v.pVector[i])
 				return 0;
 		}
 		return 1;
@@ -83,32 +90,32 @@ TVector<ValType>& TVector<ValType>::operator=(const TVector<ValType>& v) {
 
 template <class ValType>
 TVector<ValType> TVector<ValType>::operator+(const TVector<ValType>& v) {
-	TVector<ValType> res;
-	res.size = MIN(size, v.size);
-	res.pVector = new ValType[res.size];
-	for (int i = 0; i < res.size; i++)
-		res.pVector[i] = pVector[i] + v.pVector[i];
-	return res;
+	TVector<ValType> tmp;
+	tmp.size = MIN(size, v.size);
+	tmp.pVector = new ValType[tmp.size];
+	for (int i = 0; i < tmp.size; i++)
+		tmp.pVector[i] = pVector[i] + v.pVector[i];
+	return tmp;
 }
 
 template <class ValType>
 TVector<ValType> TVector<ValType>::operator-(const TVector<ValType>& v) {
-	TVector<ValType> res;
-	res.size = MIN(size, v.size);
-	res.pVector = new ValType[res.size];
-	for (int i = 0; i < res.size; i++)
-		res.pVector[i] = pVector[i] - v.pVector[i];
-	return res;
+	TVector<ValType> tmp;
+	tmp.size = MIN(size, v.size);
+	tmp.pVector = new ValType[tmp.size];
+	for (int i = 0; i < tmp.size; i++)
+		tmp.pVector[i] = pVector[i] - v.pVector[i];
+	return tmp;
 }
 
 template <class ValType>
 TVector<ValType> TVector<ValType>::operator*(const TVector<ValType>& v) {
-	TVector<ValType> res;
-	res.size = MIN(size, v.size);
-	res.pVector = new ValType[res.size];
-	for (int i = 0; i < res.size; i++)
-		res.pVector[i] = pVector[i] * v.pVector[i];
-	return res;
+	TVector<ValType> tmp;
+	tmp.size = MIN(size, v.size);
+	tmp.pVector = new ValType[tmp.size];
+	for (int i = 0; i < tmp.size; i++)
+		tmp.pVector[i] = pVector[i] * v.pVector[i];
+	return tmp;
 }
 
 template <class ValType1>
@@ -138,7 +145,7 @@ void TVector<ValType>::Resize(int s)
 		this->GetSize() = s;
 		pVector = new ValType[size];
 		for (int i = 0; i < size; i++)
-			pVector[i] = tmp[0];
+			pVector[i] = tmp.pVector[0];
 	}
 	else throw - 1;
 }
