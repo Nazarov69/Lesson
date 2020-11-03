@@ -1,5 +1,5 @@
 #include <../gtest/gtest.h>
-#include <MyMatrix.h>
+#include "Matrix.h"
 
 TEST(TMatrix, can_create_matrix_with_default_size)
 {
@@ -53,7 +53,7 @@ TEST(TMatrix, can_use_operator_plus)
 {
 	TMatrix<int> m1(2);
 	TMatrix<int> m2(2);
-    TMatrix<int> m3;
+	TMatrix<int> m3;
 
 	for (int i = 0; i < m1.GetSize(); i++)
 		for (int j = 0; j < m1.GetSize(); j++)
@@ -107,84 +107,6 @@ TEST(TMatrix, can_not_use_operator_minus_with_different_size_of_matrix)
 	ASSERT_ANY_THROW(m3 = m1 - m2);
 }
 
-TEST(TMatrix, can_use_operator_multiplication)
-{
-	TMatrix<int> m1(4);
-	TMatrix<int> m2(4);
-	TMatrix<int> m3;
-
-	for (int i = 0; i < m1.GetSize(); i++)
-		for (int j = 0; j < m1.GetSize(); j++){
-			if (i == j){
-				m1[i][j] = -2;
-				m2[i][j] = 4;
-			}
-			else if (i > j){
-				m1[i][j] = 1;
-				m2[i][j] = -1;
-			}
-		}
-
-	m1[1][0] = 3;
-	m1[3][2] = -3;
-	m2[2][1] = 6;
-	m2[3][2] = -4;
-
-	m3 = m1 * m2;
-
-	for (int i = 0; i < m3.GetSize(); i++)
-		for (int j = 0; j < m3.GetSize(); j++)
-			if (i == j)
-				EXPECT_EQ(-8, m3[i][j]);
-	EXPECT_EQ(14, m3[1][0]);
-	EXPECT_EQ(5, m3[2][0]);
-	EXPECT_EQ(8, m3[3][0]);
-	EXPECT_EQ(-8, m3[2][1]);
-	EXPECT_EQ(-12, m3[3][1]);
-	EXPECT_EQ(-4, m3[3][2]);
-}
-
-TEST(TMatrix, can_not_use_operator_multiplication_with_different_size_of_matrix)
-{
-	TMatrix<int> m1(4);
-	TMatrix<int> m2(2);
-
-	ASSERT_ANY_THROW(m1 * m2);
-}
-
-TEST(TMatrix, two_matrix_can_be_compare_with_equal_size)
-{
-	TMatrix<int> m1(2);
-	TMatrix<int> m2(2);
-	TMatrix<int> m3(2);
-
-	for (int i = 0; i < m1.GetSize(); i++)
-		for (int j = 0; j < m1.GetSize(); j++)
-			if (i >= j){
-				m1[i][j] = 1;
-				m2[i][j] = 1;
-				m3[i][j] = -1;
-			}
 
 
-	EXPECT_TRUE(m1 == m2);
-	EXPECT_FALSE(m1 == m3);
-}
 
-TEST(TMatrix, two_matrix_can_be_compare_with_different_size)
-{
-	TMatrix<int> m1(3);
-	TMatrix<int> m2(2);
-
-	for (int i = 0; i < m1.GetSize(); i++)
-		for (int j = 0; j < m1.GetSize(); j++)
-			if (i >= j)
-				m1[i][j] = 1;
-
-	for (int i = 0; i < m2.GetSize(); i++)
-		for (int j = 0; j < m2.GetSize(); j++)
-			if (i >= j)
-				m2[i][j] = 1;
-
-	EXPECT_FALSE(m1 == m2);
-}
